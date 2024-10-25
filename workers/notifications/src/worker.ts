@@ -1,5 +1,10 @@
 import { Hono } from 'hono';
-import { HTTPException } from 'hono/http-exception';
+import { bearerAuth } from 'hono/bearer-auth';
+import { prettyJSON } from 'hono/pretty-json';
+import { cors } from 'hono/cors';
+import { secureHeaders } from 'hono/secure-headers';
+import { trimTrailingSlash } from 'hono/trailing-slash';
+import { logger } from 'hono/logger';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 
@@ -9,9 +14,8 @@ export interface Env {
 	MAILGUN_API_KEY: string;
 	MAILGUN_DOMAIN: string;
 	MAILGUN_FROM_ADDRESS: string;
+	API_KEY: string;
 }
-
-// TODO: Test
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -23,11 +27,12 @@ app.use(async (c, next) => {
 	c.res.headers.set('X-Response-Time', `${end - start}`);
 });
 
-// TODO: Logger Middleware
-// TODO: Don't log credentials
-// TODO: Auth Middleware
-
-// TODO: Cors Middleware
+app.use('*', (c, next) => bearerAuth({ token: c.env.API_KEY })(c, next));
+app.use(prettyJSON());
+app.use(cors());
+app.use(secureHeaders());
+app.use(trimTrailingSlash());
+app.use(logger());
 
 // Validation with Zod
 const emailSchema = z.object({
