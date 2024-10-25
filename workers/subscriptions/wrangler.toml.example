@@ -1,0 +1,18 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "notifications"
+main = "src/worker.ts"
+compatibility_date = "2024-10-22"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "billify-db"
+database_id = "xxxxxxxxxx"
+
+[[kv_namespaces]]
+binding = "BILLIFY_KV"
+id = "xxxxxxxxxx"
+
