@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { Bindings } from './bindings';
@@ -15,8 +14,6 @@ const subscriptionSchema = z.object({
 type SubscriptionInput = z.infer<typeof subscriptionSchema>;
 
 const api = new Hono<{ Bindings: Bindings }>();
-
-api.use('*', cors());
 
 api.get('/', async (c) => {
 	const subscriptions = await model.getSubscriptions(c.env.BILLIFY_KV);

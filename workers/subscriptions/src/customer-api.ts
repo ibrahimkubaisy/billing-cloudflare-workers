@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { Bindings } from './bindings';
@@ -15,8 +14,6 @@ const customerSchema = z.object({
 type CustomerInput = z.infer<typeof customerSchema>;
 
 const api = new Hono<{ Bindings: Bindings }>();
-
-api.use('*', cors());
 
 // Fetch all customers
 api.get('/', async (c) => {
