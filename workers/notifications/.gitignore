@@ -170,3 +170,19 @@ dist
 
 .dev.vars
 .wrangler/
+
+
+# Cloudflare Workers
+wrangler.toml
+*.wrangler.toml
+wrangler.lock
+*.wrangler.lock
+*.wrangler.log
+*.wrangler.cache
+
+# Node.js
+node_modules
+npm-debug.log
+
+# macOS
+.DS_Store

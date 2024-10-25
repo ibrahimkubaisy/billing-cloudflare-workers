@@ -1,0 +1,3 @@
+SECRET_KEY="value"
+MAILGUN_API_KEY="xxxxxxxxxxxxw"
+API_TOKEN="pleasechangemeotherwiseiwillgoeatapizzaprettyimpressivethatyouvereachedherethough"
