@@ -24,7 +24,7 @@ type CustomerPlan = {
 };
 
 const email = async (env: Env, to: string[], subject: string, emailBody: string) =>
-	await fetch(`${env.NOTIFICATIONS_SERVICE}/api/email/`, {
+	await fetch(`${env.NOTIFICATIONS_SERVICE}/api/email`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
