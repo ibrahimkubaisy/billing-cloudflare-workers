@@ -121,7 +121,7 @@ export default {
 						env,
 						[customer.email],
 						`Your Billify ${customerPlan.billing_cycle.toUpperCase()} Invoice has been Generated!`,
-						`Dear ${customer.name}, \nYour invoice for your ${customerPlan.billing_cycle} ${customerPlan.name} plan has been generated for the amount of ${customerPlan.price}, and is due on ${newInvoiceDueDate}!\n\nKindly use our payment API to process the payment.`
+						`Dear ${customer.name},\n\nYour invoice for your ${customerPlan.billing_cycle} ${customerPlan.name} plan has been generated for the billing cycle of ${customer.next_billing_date} and for the amount of ${customerPlan.price}, and is due on ${newInvoiceDueDate}!\n\nKindly use our payment API to process the payment.\n\We thank you for being our customer and for using our service!`
 					);
 
 					console.log({ notification_resp });
