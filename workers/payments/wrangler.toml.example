@@ -13,31 +13,29 @@ enabled = true
 port = 8784
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
-# [vars]
-# MY_VARIABLE = "production_value"
+[vars]
+INVOICES_SERVICE = "http://127.0.0.1:8783"
+CUSTOMER_SUBSCRIPTIONS_SERVICE = "http://127.0.0.1:8782"
+NOTIFICATIONS_SERVICE = "http://127.0.0.1:8781"
 
-# Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
-# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases
-# [[d1_databases]]
-# binding = "MY_DB"
-# database_name = "my-database"
-# database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+[[d1_databases]]
+binding = "BILLIFY_D1" # i.e. available in your Worker on env.DB
+database_name = "billify-db"
+database_id = "d1eeda6e-8f28-4718-8f71-bd509ff05b44"
+
+[[kv_namespaces]]
+binding = "BILLIFY_KV"
+id = "c377562a53e14793b71d8a70db8919da"
 
 # Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
 # Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#durable-objects
 [[durable_objects.bindings]]
-name = "MY_DURABLE_OBJECT"
-class_name = "MyDurableObject"
+name = "PaymentDO"
+class_name = "Payment"
 
 # Durable Object migrations.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#migrations
 [[migrations]]
 tag = "v1"
-new_classes = ["MyDurableObject"]
-
-# Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
-# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+new_classes = ["Payment"]
