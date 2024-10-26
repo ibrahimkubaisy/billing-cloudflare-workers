@@ -11,7 +11,7 @@ import { Invoice } from './invoiceDO';
 import { createInvoice } from './models/invoice';
 
 export interface Env {
-	KV: KVNamespace;
+	BILLIFY_KV: KVNamespace;
 	InvoiceDO: DurableObjectNamespace<Invoice>;
 	CUSTOMER_SUBSCRIPTIONS_SERVICE: string;
 	NOTIFICATIONS_SERVICE: string;
@@ -89,7 +89,7 @@ export default {
 					};
 
 					const newInvoiceDueDate = new Date(); // TODO: what should be the due date, add specific days, or is it today then they pay
-					const newInvoice = await createInvoice(env.KV, {
+					const newInvoice = await createInvoice(env.BILLIFY_KV, {
 						customer_id: customer.id,
 						amount: customerPlan.price,
 						due_date: newInvoiceDueDate,
@@ -137,7 +137,7 @@ export default {
 			// 				if (customer.next_billing_date >= new Date()) return; // if billing date is in the future then skip
 
 			// 				const newInvoiceDueDate = new Date(); // TODO: what should be the due date, add specific days, or is it today then they pay
-			// 				const newInvoice = await createInvoice(env.KV, {
+			// 				const newInvoice = await createInvoice(env.BILLIFY_KV, {
 			// 					customer_id: customer.id,
 			// 					amount: customerPlan.price,
 			// 					due_date: newInvoiceDueDate,

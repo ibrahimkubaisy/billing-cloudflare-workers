@@ -18,14 +18,14 @@ const api = new Hono<{ Bindings: Env }>();
 
 // Fetch all invoices
 api.get('/', async (c) => {
-	const invoices = await model.getInvoices(c.env.KV);
+	const invoices = await model.getInvoices(c.env.BILLIFY_KV);
 	return c.json({ invoices: invoices, ok: true });
 });
 
 // Fetch all invoices per customer id
 api.get('/customer/:id', async (c) => {
 	const id = c.req.param('id');
-	const invoices = await model.getCustomerInvoices(c.env.KV, id);
+	const invoices = await model.getCustomerInvoices(c.env.BILLIFY_KV, id);
 	return c.json({ invoices: invoices, ok: true });
 });
 
@@ -33,7 +33,7 @@ api.get('/customer/:id', async (c) => {
 api.post('/', zValidator('json', invoiceSchema), async (c) => {
 	const invoiceData: InvoiceInput = c.req.valid('json');
 
-	const newInvoice = await model.createInvoice(c.env.KV, invoiceData);
+	const newInvoice = await model.createInvoice(c.env.BILLIFY_KV, invoiceData);
 
 	if (!newInvoice) {
 		return c.json({ error: 'Cannot create new invoice', ok: false }, 422);
@@ -45,7 +45,7 @@ api.post('/', zValidator('json', invoiceSchema), async (c) => {
 // Fetch a single invoice by ID
 api.get('/:id', async (c) => {
 	const id = c.req.param('id');
-	const invoice = await model.getInvoice(c.env.KV, id);
+	const invoice = await model.getInvoice(c.env.BILLIFY_KV, id);
 
 	if (!invoice) {
 		return c.json({ error: 'Not Found', ok: false }, 404);
@@ -56,7 +56,7 @@ api.get('/:id', async (c) => {
 // Update a invoice by ID
 api.put('/:id', zValidator('json', invoiceSchema.partial()), async (c) => {
 	const id = c.req.param('id');
-	const invoice = await model.getInvoice(c.env.KV, id);
+	const invoice = await model.getInvoice(c.env.BILLIFY_KV, id);
 
 	if (!invoice) {
 		// 204 No Content
@@ -64,7 +64,7 @@ api.put('/:id', zValidator('json', invoiceSchema.partial()), async (c) => {
 	}
 
 	const updatedData: Partial<InvoiceInput> = c.req.valid('json');
-	const success = await model.updateInvoice(c.env.KV, id, updatedData);
+	const success = await model.updateInvoice(c.env.BILLIFY_KV, id, updatedData);
 
 	return c.json({ ok: success });
 });
@@ -72,14 +72,14 @@ api.put('/:id', zValidator('json', invoiceSchema.partial()), async (c) => {
 // Delete a invoice by ID
 // api.delete('/:id', async (c) => {
 // 	const id = c.req.param('id');
-// 	const invoice = await model.getInvoice(c.env.KV, id);
+// 	const invoice = await model.getInvoice(c.env.BILLIFY_KV, id);
 
 // 	if (!invoice) {
 // 		// 204 No Content
 // 		return new Response(null, { status: 204 });
 // 	}
 
-// 	const success = await model.deleteInvoice(c.env.KV, id);
+// 	const success = await model.deleteInvoice(c.env.BILLIFY_KV, id);
 
 // 	return c.json({ ok: success });
 // });
