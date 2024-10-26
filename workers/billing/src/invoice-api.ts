@@ -100,6 +100,7 @@ api.post('/:id/failed-payment', zValidator('json', invoiceSchema.partial()), asy
 	return c.json({ invoice: updatedInvoice });
 });
 
+// Invoices should be safe against deletions
 // Delete a invoice by ID
 // api.delete('/:id', async (c) => {
 // 	const id = c.req.param('id');

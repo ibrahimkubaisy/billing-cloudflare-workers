@@ -19,7 +19,6 @@ export type Param = {
 	invoice_id: string;
 	amount: number;
 	payment_method: 'Credit Card' | 'PayPal' | 'Binance' | 'BenefitPay' | 'Mada';
-	payment_date: Date | null;
 };
 
 const generateID = (key: string) => {
