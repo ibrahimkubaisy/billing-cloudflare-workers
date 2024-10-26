@@ -14,7 +14,7 @@ export interface Env {
 	MAILGUN_API_KEY: string;
 	MAILGUN_DOMAIN: string;
 	MAILGUN_FROM_ADDRESS: string;
-	API_KEY: string;
+	API_TOKEN: string;
 }
 
 const app = new Hono<{ Bindings: Env }>();
@@ -27,7 +27,7 @@ app.use(async (c, next) => {
 	c.res.headers.set('X-Response-Time', `${end - start}`);
 });
 
-app.use('*', (c, next) => bearerAuth({ token: c.env.API_KEY })(c, next));
+app.use('*', (c, next) => bearerAuth({ token: c.env.API_TOKEN })(c, next));
 app.use(prettyJSON());
 app.use(cors());
 app.use(secureHeaders());
@@ -51,6 +51,7 @@ app.post('/api/email', zValidator('json', emailSchema), async (c) => {
 		emailBody = 'Testing some Mailgun awesomeness!',
 	} = c.req.valid('json');
 
+	console.log(`Emailing to ${subject} to ${to}`);
 	const response = await email(c, to, subject, emailBody);
 
 	// Handle response
@@ -58,7 +59,8 @@ app.post('/api/email', zValidator('json', emailSchema), async (c) => {
 		const result = await response.json();
 
 		c.status(200);
-		return c.json({ result, response });
+		console.log({ result });
+		return c.json({ result });
 	} else {
 		c.status(500);
 		return c.json({ response });
