@@ -102,17 +102,21 @@ export const updateCustomer = async (KV: KVNamespace, id: string, param: Partial
 		const customer = await getCustomer(KV, id);
 		if (!customer) return false;
 
-		// Task: "Handling of edge cases: mid-cycle plan changes."
-		// Solution: Check if updating plan, then update the billing date to today or a month/year from today
-		// 			 Then, when the invoice schedule is triggered, it will generate an invoice based on the new billing date
-		// TODO
-
 		// Update fields only if they are provided in the param
 		customer.name = param.name ?? customer.name;
 		customer.email = param.email ?? customer.email;
 		customer.subscription_plan_id = param.subscription_plan_id ?? customer.subscription_plan_id;
 		customer.subscription_status = param.subscription_status ?? customer.subscription_status;
-		customer.next_billing_date = param.next_billing_date ?? customer.next_billing_date;
+		customer.next_billing_date = param.next_billing_date ?? customer.next_billing_date; // DEV PURPOSES: allows during development to change the next_billing_date but should be removed for production
+
+		// Task: "Handling of edge cases: mid-cycle plan changes."
+		// Solution: C=heck if updating plan, then update the billing date to today or a month/year from today,
+		// 			 then, when the invoice schedule is triggered, it will generate an invoice based on the new billing date
+		if (param.subscription_plan_id) {
+			customer.next_billing_date = new Date(); // TODO: should this be today or based on the plan add a month/year from today
+		} else {
+			customer.next_billing_date = param.next_billing_date ?? customer.next_billing_date;
+		}
 
 		await KV.put(generateID(id), JSON.stringify(customer));
 		return true;
