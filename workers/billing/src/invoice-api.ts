@@ -22,6 +22,13 @@ api.get('/', async (c) => {
 	return c.json({ invoices: invoices, ok: true });
 });
 
+// Fetch all failed invoices
+api.get('/failed', async (c) => {
+	const invoices = await model.getInvoices(c.env.BILLIFY_KV);
+	const failedInvoices = invoices?.filter((invoice) => invoice.payment_status === 'failed');
+	return c.json({ invoices: failedInvoices, ok: true });
+});
+
 // Fetch all invoices per customer id
 api.get('/customer/:id', async (c) => {
 	const id = c.req.param('id');

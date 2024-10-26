@@ -9,6 +9,14 @@ compatibility_date = "2024-10-22"
 [observability]
 enabled = true
 
+[triggers]
+crons = ["0 0 * * *"] # = run every day
+# crons = ["* * * * *"] # * * * * * = run every min
+# crons = ["0 */1 * * *"] # 0 */1 * * * = run every hour
+# crons = ["0 0 * * *"] # 0 0 * * * = run every day
+# crons = ["0 0 1 * *"] # 0 0 1 * * = run every month
+# crons = ["0 0 1 1 *"] # 0 0 1 1 * = run every year
+
 [dev]
 port = 8784
 

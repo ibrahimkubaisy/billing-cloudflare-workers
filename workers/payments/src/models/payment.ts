@@ -13,6 +13,7 @@ export interface Payment {
 	amount: number;
 	payment_method: 'Credit Card' | 'PayPal' | 'Binance' | 'BenefitPay' | 'Mada';
 	payment_date: Date | null;
+	payment_status: 'failed' | 'paid';
 }
 
 export type Param = {
@@ -46,7 +47,7 @@ export const getPayments = async (KV: KVNamespace): Promise<Payment[] | undefine
 };
 
 // Fetch all payments
-export const getInvoicePayments = async (KV: KVNamespace, invoiceId: string): Promise<Payment[] | undefined> => {
+export const getInvoicePayments = async (KV: KVNamespace, invoiceId: string): Promise<Payment[]> => {
 	try {
 		const list = await KV.list({ prefix: PREFIX });
 		const keys = list.keys;
@@ -61,7 +62,7 @@ export const getInvoicePayments = async (KV: KVNamespace, invoiceId: string): Pr
 		const invoicePayments = payments.filter(Boolean).filter((payment) => payment.invoice_id === invoiceId) as Payment[];
 		return invoicePayments;
 	} catch (error) {
-		return undefined;
+		return [];
 	}
 };
 
@@ -81,6 +82,9 @@ export const createPayment = async (KV: KVNamespace, param: Param): Promise<Paym
 		// Ensure all required fields are provided
 		if (!(param && param.invoice_id && param.amount && param.payment_method)) return undefined;
 
+		// randomly select between failed/paid payment, then update the invoice accordingly
+		const paymentStatus = Math.random() < 0.75 ? 'failed' : 'paid'; // give more change for failed payment to test, or hardcode to failed
+
 		const id = crypto.randomUUID();
 		const newPayment: Payment = {
 			id: id,
@@ -88,6 +92,7 @@ export const createPayment = async (KV: KVNamespace, param: Param): Promise<Paym
 			amount: param.amount,
 			payment_method: param.payment_method,
 			payment_date: new Date(),
+			payment_status: paymentStatus,
 		};
 
 		await KV.put(generateID(id), JSON.stringify(newPayment));

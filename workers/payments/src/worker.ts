@@ -1,6 +1,8 @@
 import { DurableObject } from 'cloudflare:workers';
-import { PaymentDO } from './paymentDO';
+import { Payment as PaymentDO } from './paymentDO';
 import app from './app';
+import { fetchFailedInvoices, processPayment } from './utils';
+import { Payment as PaymentModel, getInvoicePayments } from './models/payment';
 
 /**
  * Welcome to Cloudflare Workers! This is your first Durable Objects application.
@@ -22,6 +24,15 @@ export interface Env {
 	CUSTOMER_SUBSCRIPTIONS_SERVICE: string;
 	NOTIFICATIONS_SERVICE: string;
 	API_TOKEN: string;
+}
+
+export interface Invoice {
+	id: string;
+	customer_id: string;
+	amount: number;
+	due_date: Date;
+	payment_status: 'pending' | 'paid' | 'failed';
+	payment_date: Date | null;
 }
 
 /** A Durable Object's behavior is defined in an exported Javascript class */
@@ -49,10 +60,47 @@ export class MyDurableObject extends DurableObject {
 	}
 }
 
+export { PaymentDO as Payment };
+
 export default {
-	// TODO: Schedule reattempting failed payments
-	async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {},
-	// TODO: Provide API endpoints to pay and list past payments
+	// Schedule reattempting failed payments
+	async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+		// Fetch all invoices with status "failed"
+		const failedInvoices = await fetchFailedInvoices(env);
+
+		// Reattempt payments manually
+		failedInvoices.map(async (failedInvoice: Invoice) => {
+			// Fetch last payment with this invoice id to grab the other payment details to reattempt
+			const invoicePayments: PaymentModel[] = await getInvoicePayments(env.BILLIFY_KV, failedInvoice.id);
+
+			if (invoicePayments?.length) return null;
+
+			// Sort by payment_date in descending order and get the first one (latest)
+			const lastPaymentInvoice = invoicePayments.sort((a, b) => {
+				return (b.payment_date as Date).getTime() - (a.payment_date as Date).getTime();
+			})[0];
+
+			console.log(
+				`Reattempting to process ${lastPaymentInvoice.id} payment since ${lastPaymentInvoice.payment_date} for amount of (${lastPaymentInvoice.amount}) with payment method: ${lastPaymentInvoice.payment_method}.`
+			);
+
+			const newPayment = await processPayment(env, {
+				invoice_id: lastPaymentInvoice.invoice_id,
+				amount: lastPaymentInvoice.amount,
+				payment_method: lastPaymentInvoice.payment_method,
+			});
+
+			if (!newPayment) {
+				console.log(`Error during processing new payment`);
+				return null;
+			}
+
+			console.log(
+				`New payment for invoice ${newPayment.invoice_id} with status: ${newPayment.payment_status} at ${newPayment.payment_date}`
+			);
+		});
+	},
+	// Provide API endpoints to pay and list past payments
 	async fetch(request: Request, env: any) {
 		return await app.fetch(request, env);
 	},
