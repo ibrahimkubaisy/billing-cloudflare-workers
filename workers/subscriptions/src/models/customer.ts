@@ -1,3 +1,5 @@
+import { getSubscription } from './subscription';
+
 const PREFIX = 'v1:customer:';
 
 declare global {
@@ -13,6 +15,8 @@ export interface Customer {
 	email: string;
 	subscription_plan_id: string;
 	subscription_status: 'active' | 'cancelled' | 'paused';
+	joining_date: Date;
+	next_billing_date: Date;
 }
 
 export type Param = {
@@ -20,6 +24,7 @@ export type Param = {
 	email: string;
 	subscription_plan_id: string;
 	subscription_status: 'active' | 'cancelled' | 'paused';
+	next_billing_date: Date | null | undefined;
 };
 
 const generateID = (key: string) => {
@@ -62,6 +67,17 @@ export const createCustomer = async (KV: KVNamespace, param: Param): Promise<Cus
 		// Ensure all required fields are provided
 		if (!(param && param.name && param.email && param.subscription_plan_id && param.subscription_status)) return undefined;
 
+		const subscription = await getSubscription(KV, param.subscription_plan_id);
+
+		if (!subscription) {
+			return undefined;
+		}
+
+		const billingCycles = {
+			monthly: 1,
+			yearly: 12,
+		};
+
 		const id = crypto.randomUUID();
 		const newCustomer: Customer = {
 			id: id,
@@ -69,6 +85,8 @@ export const createCustomer = async (KV: KVNamespace, param: Param): Promise<Cus
 			email: param.email,
 			subscription_plan_id: param.subscription_plan_id,
 			subscription_status: param.subscription_status,
+			joining_date: new Date(),
+			next_billing_date: new Date(new Date().setMonth(new Date().getMonth() + billingCycles[subscription.billing_cycle] || 1)), // plus month or year
 		};
 
 		await KV.put(generateID(id), JSON.stringify(newCustomer));
@@ -84,11 +102,17 @@ export const updateCustomer = async (KV: KVNamespace, id: string, param: Partial
 		const customer = await getCustomer(KV, id);
 		if (!customer) return false;
 
+		// Task: "Handling of edge cases: mid-cycle plan changes."
+		// Solution: Check if updating plan, then update the billing date to today or a month/year from today
+		// 			 Then, when the invoice schedule is triggered, it will generate an invoice based on the new billing date
+		// TODO
+
 		// Update fields only if they are provided in the param
 		customer.name = param.name ?? customer.name;
 		customer.email = param.email ?? customer.email;
 		customer.subscription_plan_id = param.subscription_plan_id ?? customer.subscription_plan_id;
 		customer.subscription_status = param.subscription_status ?? customer.subscription_status;
+		customer.next_billing_date = param.next_billing_date ?? customer.next_billing_date;
 
 		await KV.put(generateID(id), JSON.stringify(customer));
 		return true;

@@ -5,8 +5,11 @@ export class Invoice extends DurableObject {
 		super(ctx, env);
 	}
 
-	async getInvoiceValue() {
-		let value = (await this.ctx.storage.get('value')) || 0;
+	async generateInvoice() {
+		let value = (await this.ctx.storage.get('value')) || undefined;
+
+		if (value === undefined) await this.ctx.storage.put('value', value);
+
 		return value;
 	}
 

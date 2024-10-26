@@ -1,4 +1,4 @@
-import { Hono } from 'hono';
+import { Context, Hono, Next } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { Bindings } from './bindings';
@@ -9,6 +9,7 @@ const customerSchema = z.object({
 	email: z.string().email(), // Ensure valid email format
 	subscription_plan_id: z.string().min(1),
 	subscription_status: z.enum(['active', 'cancelled', 'paused']),
+	next_billing_date: z.preprocess((val) => (typeof val === 'string' ? new Date(val) : val), z.date().nullable()),
 });
 
 type CustomerInput = z.infer<typeof customerSchema>;
