@@ -6,6 +6,7 @@
  * - Run `curl "http://localhost:8787/__scheduled?cron=*+*+*+*+*"` to see your worker in action
  */
 
+import app from './app';
 import { Invoice } from './invoiceDO';
 import { createInvoice } from './models/invoice';
 
@@ -189,7 +190,9 @@ export default {
 	},
 
 	// TODO: create an endpoint to list customers invoices /api/customers/:id/invoices
-	async fetch(): Promise<any> {},
+	async fetch(request: Request, env: any) {
+		return await app.fetch(request, env);
+	},
 };
 
 // let id: DurableObjectId = env.InvoiceDO.idFromName(customer.name); // assuming customer name is unique
