@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "build": "concurrently \"cd workers/billing && npm install && cp worker.toml.example worker.toml && cp dev.vars.example dev.vars\" \"cd workers/notifications && npm install && cp worker.toml.example worker.toml && cp dev.vars.example dev.vars\" \"cd workers/payments && npm install && cp worker.toml.example worker.toml && cp dev.vars.example dev.vars\" \"cd workers/subscriptions && npm install && cp worker.toml.example worker.toml && cp dev.vars.example dev.vars\"",
+    "dev": "concurrently \"cd workers/billing && npm start\" \"cd workers/notifications && npm start\" \"cd workers/payments && npm start\" \"cd workers/subscriptions && npm start\"",
+    "test": "concurrently \"cd workers/billing && npm test\" \"cd workers/notifications && npm test\" \"cd workers/payments && npm test\" \"cd workers/subscriptions && npm test\"",
+    "deploy": "concurrently \"cd workers/billing && npm run deploy\" \"cd workers/notifications && npm run deploy\" \"cd workers/payments && npm run deploy\" \"cd workers/subscriptions && npm run deploy\""
+  },
+  "dependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
