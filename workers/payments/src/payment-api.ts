@@ -15,20 +15,20 @@ type PaymentInput = z.infer<typeof paymentSchema>;
 const api = new Hono<{ Bindings: Env }>();
 
 // Fetch all payments
-api.get('/', async (c) => {
+api.get('/payments', async (c) => {
 	const payments = await model.getPayments(c.env.BILLIFY_KV);
 	return c.json({ payments: payments, ok: true });
 });
 
 // Fetch all payments per invoice id
-api.get('/invoice/:id', async (c) => {
+api.get('/invoice/:id/payments', async (c) => {
 	const id = c.req.param('id');
 	const payments = await model.getInvoicePayments(c.env.BILLIFY_KV, id);
 	return c.json({ payments: payments, ok: true });
 });
 
 // Create a new payment
-api.post('/', zValidator('json', paymentSchema), async (c) => {
+api.post('/invoice/:id/payment', zValidator('json', paymentSchema), async (c) => {
 	const paymentData: PaymentInput = c.req.valid('json');
 
 	const newPayment = await model.createPayment(c.env.BILLIFY_KV, paymentData);
@@ -41,7 +41,7 @@ api.post('/', zValidator('json', paymentSchema), async (c) => {
 });
 
 // Fetch a single payment by ID
-api.get('/:id', async (c) => {
+api.get('/payments/:id', async (c) => {
 	const id = c.req.param('id');
 	const payment = await model.getPayment(c.env.BILLIFY_KV, id);
 

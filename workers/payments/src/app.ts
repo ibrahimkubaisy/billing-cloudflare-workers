@@ -6,7 +6,7 @@ import { secureHeaders } from 'hono/secure-headers';
 import { trimTrailingSlash } from 'hono/trailing-slash';
 import { logger } from 'hono/logger';
 import { Env } from './worker';
-import invoiceApi from './invoice-api';
+import paymentApi from './payment-api';
 
 const app = new Hono<{ Bindings: Env }>();
 app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
@@ -28,6 +28,6 @@ app.get('/', (c) => {
 });
 
 app.route('/api', middleware);
-app.route('/api/invoices', invoiceApi);
+app.route('/api', paymentApi);
 
 export default app;
