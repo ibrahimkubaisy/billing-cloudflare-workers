@@ -1,0 +1,2297 @@
+{
+	"info": {
+		"_postman_id": "6fac8091-044c-4975-a828-be9e227adefe",
+		"name": "Billify",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25374312"
+	},
+	"item": [
+		{
+			"name": "subscriptions",
+			"item": [
+				{
+					"name": "get subscriptions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/subscriptions/",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "subscriptions",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URI}}/api/subscriptions",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"subscriptions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1485eb70-04a0-407f-b72d-e3bff10bd43e\",\n            \"name\": \"Basic\",\n            \"billing_cycle\": \"monthly\",\n            \"price\": 25,\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"2b9f02f0-ed30-4f60-9f14-584855b03aab\",\n            \"name\": \"Basic\",\n            \"billing_cycle\": \"yearly\",\n            \"price\": 250,\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"2c666d6e-d94d-4d7f-9ce4-dcfa40799f9a\",\n            \"name\": \"Enterprise\",\n            \"billing_cycle\": \"yearly\",\n            \"price\": 1250,\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"a053e75a-7ba7-4bdb-8aab-073242e5cf84\",\n            \"name\": \"Enterprise\",\n            \"billing_cycle\": \"monthly\",\n            \"price\": 125.75,\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"d2e32939-802d-4393-8244-1d7baa9134bf\",\n            \"name\": \"Pro\",\n            \"billing_cycle\": \"yearly\",\n            \"price\": 775,\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"d5344a78-859e-4ce6-8dc8-fa22c923606b\",\n            \"name\": \"Pro\",\n            \"billing_cycle\": \"monthly\",\n            \"price\": 77.5,\n            \"status\": \"active\"\n        }\n    ],\n    \"ok\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "get subscription",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/subscriptions/:id",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "a053e75a-7ba7-4bdb-8aab-073242e5cf84"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get subscription",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URI}}/api/subscriptions/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"subscriptions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "a053e75a-7ba7-4bdb-8aab-073242e5cf84"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"subscription\": {\n        \"id\": \"a053e75a-7ba7-4bdb-8aab-073242e5cf84\",\n        \"name\": \"Enterprise\",\n        \"billing_cycle\": \"monthly\",\n        \"price\": 125.75,\n        \"status\": \"inactive\"\n    },\n    \"ok\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "create subscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Trial\",\r\n\t\"billing_cycle\": \"yearly\",\r\n\t\"price\": 0.99,\r\n\t\"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/subscriptions",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"subscriptions"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create subscriptions",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Enterprise\",\r\n\t\"billing_cycle\": \"monthly\",\r\n\t\"price\": 125.75,\r\n\t\"status\": \"active\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URI}}/api/subscriptions",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"subscriptions"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"subscription\": {\n        \"id\": \"a053e75a-7ba7-4bdb-8aab-073242e5cf84\",\n        \"name\": \"Enterprise\",\n        \"billing_cycle\": \"monthly\",\n        \"price\": 125.75,\n        \"status\": \"active\"\n    },\n    \"ok\": true\n}"
+						},
+						{
+							"name": "validation error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": 2,\r\n\t\"billing_cycle\": \"incorrect\",\r\n\t\"price\": \"125.75\",\r\n\t\"status\": \"enum_invalid\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URI}}/api/subscriptions",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"subscriptions"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"error\": {\n        \"issues\": [\n            {\n                \"code\": \"invalid_type\",\n                \"expected\": \"string\",\n                \"received\": \"number\",\n                \"path\": [\n                    \"name\"\n                ],\n                \"message\": \"Expected string, received number\"\n            },\n            {\n                \"received\": \"incorrect\",\n                \"code\": \"invalid_enum_value\",\n                \"options\": [\n                    \"monthly\",\n                    \"yearly\"\n                ],\n                \"path\": [\n                    \"billing_cycle\"\n                ],\n                \"message\": \"Invalid enum value. Expected 'monthly' | 'yearly', received 'incorrect'\"\n            },\n            {\n                \"code\": \"invalid_type\",\n                \"expected\": \"number\",\n                \"received\": \"string\",\n                \"path\": [\n                    \"price\"\n                ],\n                \"message\": \"Expected number, received string\"\n            },\n            {\n                \"received\": \"enum_invalid\",\n                \"code\": \"invalid_enum_value\",\n                \"options\": [\n                    \"active\",\n                    \"inactive\"\n                ],\n                \"path\": [\n                    \"status\"\n                ],\n                \"message\": \"Invalid enum value. Expected 'active' | 'inactive', received 'enum_invalid'\"\n            }\n        ],\n        \"name\": \"ZodError\"\n    }\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Trial\",\r\n\t\"billing_cycle\": \"yearly\",\r\n\t\"price\": 0.99,\r\n\t\"status\": \"active\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URI}}/api/subscriptions",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"subscriptions"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "WWW-Authenticate",
+									"value": "Bearer realm=\"\""
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				},
+				{
+					"name": "update subscription",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"inactive\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/subscriptions/:id",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "a053e75a-7ba7-4bdb-8aab-073242e5cf84"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update subscriptions",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"inactive\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URI}}/api/subscriptions/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"subscriptions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "a053e75a-7ba7-4bdb-8aab-073242e5cf84"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"ok\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "delete subscription",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/subscriptions/:id",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6f1e6ded-d2cf-4234-be9d-5edf2e296213"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete subscriptions",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URI}}/api/subscriptions/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"subscriptions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6f1e6ded-d2cf-4234-be9d-5edf2e296213"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"ok\": true\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URI}}/api/subscriptions/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"subscriptions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6f1e6ded-d2cf-4234-be9d-5edf2e296213"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "WWW-Authenticate",
+									"value": "Bearer realm=\"\""
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "customers",
+			"item": [
+				{
+					"name": "get customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/customers",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get customers",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{SUBSCRIPTIONS_URI}}/api/customers",
+									"host": [
+										"{{SUBSCRIPTIONS_URI}}"
+									],
+									"path": [
+										"api",
+										"customers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"customers\": [\n        {\n            \"id\": \"0c0a5661-44d7-4317-a276-3ab4058179a1\",\n            \"name\": \"Pinapple\",\n            \"email\": \"ibrahim.alkubaisy@gmail.com\",\n            \"subscription_plan_id\": \"2b9f02f0-ed30-4f60-9f14-584855b03aab\",\n            \"subscription_status\": \"active\",\n            \"joining_date\": \"2024-10-26T10:28:12.950Z\",\n            \"billing_date\": \"2025-10-26T10:28:12.950Z\"\n        },\n        {\n            \"id\": \"c7632334-c25c-416e-991e-23f8d97a4974\",\n            \"name\": \"Banude\",\n            \"email\": \"ibrahim.alkubaisy@gmail.com\",\n            \"subscription_plan_id\": \"1485eb70-04a0-407f-b72d-e3bff10bd43e\",\n            \"subscription_status\": \"active\",\n            \"joining_date\": \"2024-10-26T10:27:33.268Z\",\n            \"billing_date\": \"2024-11-26T10:27:33.268Z\"\n        }\n    ],\n    \"ok\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "get customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/customers/:id",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "0c0a5661-44d7-4317-a276-3ab4058179a1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get customer",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URI}}/api/customers/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"customers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "daf41134-c05e-4dc7-af0d-38f9b1395320"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"customer\": {\n        \"id\": \"daf41134-c05e-4dc7-af0d-38f9b1395320\",\n        \"name\": \"Pinapple\",\n        \"email\": \"ibrahim.alkubaisy@gmail.com\",\n        \"subscription_plan_id\": \"1485eb70-04a0-407f-b72d-e3bff10bd43e\",\n        \"subscription_status\": \"paused\"\n    },\n    \"ok\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "create customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Pinapple\",\r\n\t\"email\": \"ibrahim.alkubaisy@gmail.com\",\r\n\t\"subscription_plan_id\": \"2b9f02f0-ed30-4f60-9f14-584855b03aab\",\r\n\t\"subscription_status\": \"active\" // enum(['active', 'cancelled', 'paused'])\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/customers",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create customer",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Pinapple\",\r\n\t\"email\": \"ibrahim.alkubaisy@gmail.com\",\r\n\t\"subscription_plan_id\": \"2b9f02f0-ed30-4f60-9f14-584855b03aab\",\r\n\t\"subscription_status\": \"active\" // enum(['active', 'cancelled', 'paused'])\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{SUBSCRIPTIONS_URI}}/api/customers",
+									"host": [
+										"{{SUBSCRIPTIONS_URI}}"
+									],
+									"path": [
+										"api",
+										"customers"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"customer\": {\n        \"id\": \"db6320c3-714e-4507-8f90-5dc2f5816c3a\",\n        \"name\": \"Pinapple\",\n        \"email\": \"ibrahim.alkubaisy@gmail.com\",\n        \"subscription_plan_id\": \"2b9f02f0-ed30-4f60-9f14-584855b03aab\",\n        \"subscription_status\": \"active\",\n        \"joining_date\": \"2024-10-26T10:28:43.690Z\",\n        \"billing_date\": \"2025-10-26T10:28:43.690Z\"\n    },\n    \"ok\": true\n}"
+						},
+						{
+							"name": "validation error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Pinapple\",\r\n\t\"email\": \"ibrahim.alkubaisygmail.com\",\r\n\t\"subscription_plan_id\": \"1485eb70-04a0-407f-b72d-e3bff10bd43e\",\r\n\t\"subscription_status\": \"other\" // enum(['active', 'cancelled', 'paused'])\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URI}}/api/customers",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"customers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"error\": {\n        \"issues\": [\n            {\n                \"validation\": \"email\",\n                \"code\": \"invalid_string\",\n                \"message\": \"Invalid email\",\n                \"path\": [\n                    \"email\"\n                ]\n            },\n            {\n                \"received\": \"other\",\n                \"code\": \"invalid_enum_value\",\n                \"options\": [\n                    \"active\",\n                    \"cancelled\",\n                    \"paused\"\n                ],\n                \"path\": [\n                    \"subscription_status\"\n                ],\n                \"message\": \"Invalid enum value. Expected 'active' | 'cancelled' | 'paused', received 'other'\"\n            }\n        ],\n        \"name\": \"ZodError\"\n    }\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Pinapple\",\r\n\t\"email\": \"ibrahim.alkubaisy@gmail.com\",\r\n\t\"subscription_plan_id\": \"1485eb70-04a0-407f-b72d-e3bff10bd43e\",\r\n\t\"subscription_status\": \"cancelled\" // enum(['active', 'cancelled', 'paused'])\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URI}}/api/customers",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"customers"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "WWW-Authenticate",
+									"value": "Bearer realm=\"\""
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				},
+				{
+					"name": "update customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"subscription_plan_id\": \"\"\r\n    // \"subscription_status\": \"paused\" // enum(['active', 'cancelled', 'paused'])\r\n    \"next_billing_date\": \"2024-10-26T10:28:12.950Z\" // date\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/customers/:id",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "0c0a5661-44d7-4317-a276-3ab4058179a1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update customer",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"subscription_plan_id\": \"\"\r\n    \"subscription_status\": \"paused\" // enum(['active', 'cancelled', 'paused'])\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URI}}/api/customers/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"customers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "daf41134-c05e-4dc7-af0d-38f9b1395320"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"ok\": true\n}"
+						},
+						{
+							"name": "validation error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"subscription_plan_id\": \"\"\r\n    \"subscription_status\": \"other\" // enum(['active', 'cancelled', 'paused'])\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URI}}/api/customers/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"customers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "daf41134-c05e-4dc7-af0d-38f9b1395320"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"error\": {\n        \"issues\": [\n            {\n                \"received\": \"other\",\n                \"code\": \"invalid_enum_value\",\n                \"options\": [\n                    \"active\",\n                    \"cancelled\",\n                    \"paused\"\n                ],\n                \"path\": [\n                    \"subscription_status\"\n                ],\n                \"message\": \"Invalid enum value. Expected 'active' | 'cancelled' | 'paused', received 'other'\"\n            }\n        ],\n        \"name\": \"ZodError\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "delete customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{SUBSCRIPTIONS_URI}}/api/customers/:id",
+							"host": [
+								"{{SUBSCRIPTIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "a3502fb5-c76a-4441-aced-9e923c261b8a"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete customer",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URI}}/api/customers/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"customers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "daf41134-c05e-4dc7-af0d-38f9b1395320"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"ok\": true\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URI}}/api/customers/:id",
+									"host": [
+										"{{BASE_URI}}"
+									],
+									"path": [
+										"api",
+										"customers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "daf41134-c05e-4dc7-af0d-38f9b1395320"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "WWW-Authenticate",
+									"value": "Bearer realm=\"\""
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "billing",
+			"item": [
+				{
+					"name": "invoices",
+					"item": [
+						{
+							"name": "get invoices",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BILLING_URI}}/api/invoices",
+									"host": [
+										"{{BILLING_URI}}"
+									],
+									"path": [
+										"api",
+										"invoices"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "get invoices",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BILLING_URI}}/api/invoices",
+											"host": [
+												"{{BILLING_URI}}"
+											],
+											"path": [
+												"api",
+												"invoices"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"invoices\": [\n        {\n            \"id\": \"6a499437-bd54-43e9-bc25-0a781727466b\",\n            \"customer_id\": \"0c0a5661-44d7-4317-a276-3ab4058179a1\",\n            \"amount\": 50,\n            \"due_date\": \"2024-10-26T14:26:48.469Z\",\n            \"payment_status\": \"pending\",\n            \"payment_date\": null\n        },\n        {\n            \"id\": \"8700141e-c81a-4bb6-b262-a9321a087975\",\n            \"customer_id\": \"0c0a5661-44d7-4317-a276-3ab4058179a1\",\n            \"amount\": 50,\n            \"due_date\": \"2024-10-26T14:26:48.469Z\",\n            \"payment_status\": \"paid\",\n            \"payment_date\": \"2024-10-26T16:41:28.505Z\"\n        },\n        {\n            \"id\": \"b57dd3f0-29b8-4cb6-b648-bafd011c3387\",\n            \"customer_id\": \"0c0a5661-44d7-xxxx-a276-3ab4058179a1\",\n            \"amount\": 50,\n            \"due_date\": \"2024-10-26T14:26:48.469Z\",\n            \"payment_status\": \"failed\",\n            \"payment_date\": null\n        }\n    ],\n    \"ok\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "get failed invoices",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BILLING_URI}}/api/invoices/failed",
+									"host": [
+										"{{BILLING_URI}}"
+									],
+									"path": [
+										"api",
+										"invoices",
+										"failed"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "get failed invoices",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BILLING_URI}}/api/invoices/failed",
+											"host": [
+												"{{BILLING_URI}}"
+											],
+											"path": [
+												"api",
+												"invoices",
+												"failed"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"invoices\": [\n        {\n            \"id\": \"b57dd3f0-29b8-4cb6-b648-bafd011c3387\",\n            \"customer_id\": \"0c0a5661-44d7-xxxx-a276-3ab4058179a1\",\n            \"amount\": 50,\n            \"due_date\": \"2024-10-26T14:26:48.469Z\",\n            \"payment_status\": \"failed\",\n            \"payment_date\": null\n        }\n    ],\n    \"ok\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "get invoice",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BILLING_URI}}/api/invoices/:id",
+									"host": [
+										"{{BILLING_URI}}"
+									],
+									"path": [
+										"api",
+										"invoices",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6a499437-bd54-43e9-bc25-0a781727466b"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get customers invoice",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BILLING_URI}}/api/invoices/customer/:id",
+									"host": [
+										"{{BILLING_URI}}"
+									],
+									"path": [
+										"api",
+										"invoices",
+										"customer",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "0c0a5661-44d7-4317-a276-3ab4058179a1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "get customers invoice",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BILLING_URI}}/api/invoices/customer/:id",
+											"host": [
+												"{{BILLING_URI}}"
+											],
+											"path": [
+												"api",
+												"invoices",
+												"customer",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "0c0a5661-44d7-4317-a276-3ab4058179a1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"invoices\": [\n        {\n            \"id\": \"6a499437-bd54-43e9-bc25-0a781727466b\",\n            \"customer_id\": \"0c0a5661-44d7-4317-a276-3ab4058179a1\",\n            \"amount\": 50,\n            \"due_date\": \"2024-10-26T14:26:48.469Z\",\n            \"payment_status\": \"pending\",\n            \"payment_date\": null\n        },\n        {\n            \"id\": \"8700141e-c81a-4bb6-b262-a9321a087975\",\n            \"customer_id\": \"0c0a5661-44d7-4317-a276-3ab4058179a1\",\n            \"amount\": 50,\n            \"due_date\": \"2024-10-26T14:26:48.469Z\",\n            \"payment_status\": \"pending\",\n            \"payment_date\": null\n        }\n    ],\n    \"ok\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "create invoice",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customer_id\": \"0c0a5661-44d7-xxxx-a276-3ab4058179a1\", // customer uuid\r\n    \"amount\": 50, // number\r\n    \"payment_status\": \"pending\", // 'pending' | 'paid' | 'failed'\r\n    \"due_date\": \"2024-10-26T14:26:48.469Z\", // date\r\n    \"payment_date\": null // date\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BILLING_URI}}/api/invoices",
+									"host": [
+										"{{BILLING_URI}}"
+									],
+									"path": [
+										"api",
+										"invoices"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update invoice",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"subscription_plan_id\": \"\"\r\n    // \"subscription_status\": \"paused\" // enum(['active', 'cancelled', 'paused'])\r\n    \"next_billing_date\": \"2024-10-26T10:28:12.950Z\" // date\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BILLING_URI}}/api/invoices/:id",
+									"host": [
+										"{{BILLING_URI}}"
+									],
+									"path": [
+										"api",
+										"invoices",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "0c0a5661-44d7-4317-a276-3ab4058179a1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pay an invoice",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"subscription_plan_id\": \"\"\r\n    // \"subscription_status\": \"paused\" // enum(['active', 'cancelled', 'paused'])\r\n    \"next_billing_date\": \"2024-10-26T10:28:12.950Z\" // date\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BILLING_URI}}/api/invoices/:id/pay",
+									"host": [
+										"{{BILLING_URI}}"
+									],
+									"path": [
+										"api",
+										"invoices",
+										":id",
+										"pay"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8700141e-c81a-4bb6-b262-a9321a087975"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "pay an invoice",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    // \"subscription_plan_id\": \"\"\r\n    // \"subscription_status\": \"paused\" // enum(['active', 'cancelled', 'paused'])\r\n    \"next_billing_date\": \"2024-10-26T10:28:12.950Z\" // date\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BILLING_URI}}/api/invoices/:id/pay",
+											"host": [
+												"{{BILLING_URI}}"
+											],
+											"path": [
+												"api",
+												"invoices",
+												":id",
+												"pay"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "b57dd3f0-29b8-4cb6-b648-bafd011c3387"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"ok\": {\n        \"id\": \"b57dd3f0-29b8-4cb6-b648-bafd011c3387\",\n        \"customer_id\": \"0c0a5661-44d7-xxxx-a276-3ab4058179a1\",\n        \"amount\": 50,\n        \"due_date\": \"2024-10-26T14:26:48.469Z\",\n        \"payment_status\": \"paid\",\n        \"payment_date\": \"2024-10-26T14:55:43.115Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "invoice payment failed",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"subscription_plan_id\": \"\"\r\n    // \"subscription_status\": \"paused\" // enum(['active', 'cancelled', 'paused'])\r\n    \"next_billing_date\": \"2024-10-26T10:28:12.950Z\" // date\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BILLING_URI}}/api/invoices/:id/failed-payment",
+									"host": [
+										"{{BILLING_URI}}"
+									],
+									"path": [
+										"api",
+										"invoices",
+										":id",
+										"failed-payment"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6a499437-bd54-43e9-bc25-0a781727466b"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "invoice payment failed",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    // \"subscription_plan_id\": \"\"\r\n    // \"subscription_status\": \"paused\" // enum(['active', 'cancelled', 'paused'])\r\n    \"next_billing_date\": \"2024-10-26T10:28:12.950Z\" // date\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BILLING_URI}}/api/invoices/:id/failed-payment",
+											"host": [
+												"{{BILLING_URI}}"
+											],
+											"path": [
+												"api",
+												"invoices",
+												":id",
+												"failed-payment"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "b57dd3f0-29b8-4cb6-b648-bafd011c3387"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"invoice\": {\n        \"id\": \"b57dd3f0-29b8-4cb6-b648-bafd011c3387\",\n        \"customer_id\": \"0c0a5661-44d7-xxxx-a276-3ab4058179a1\",\n        \"amount\": 50,\n        \"due_date\": \"2024-10-26T14:26:48.469Z\",\n        \"payment_status\": \"failed\",\n        \"payment_date\": null\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Trigger Cron",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BILLING_URI}}/__scheduled?cron=0+0+1+*+*",
+							"host": [
+								"{{BILLING_URI}}"
+							],
+							"path": [
+								"__scheduled"
+							],
+							"query": [
+								{
+									"key": "cron",
+									"value": "0+0+1+*+*"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payments",
+			"item": [
+				{
+					"name": "get payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PAYMENTS_URI}}/api/payments",
+							"host": [
+								"{{PAYMENTS_URI}}"
+							],
+							"path": [
+								"api",
+								"payments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get payments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{PAYMENTS_URI}}/api/payments",
+									"host": [
+										"{{PAYMENTS_URI}}"
+									],
+									"path": [
+										"api",
+										"payments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"payments\": [\n        {\n            \"id\": \"45243bc0-7567-4a13-8a80-17ba4417b92f\",\n            \"invoice_id\": \"6a499437-bd54-43e9-bc25-0a781727466b\",\n            \"amount\": 50,\n            \"payment_method\": \"PayPal\",\n            \"payment_date\": \"2024-10-26T16:38:03.196Z\",\n            \"payment_status\": \"failed\"\n        },\n        {\n            \"id\": \"95224b9f-23fc-453a-b129-516445c18a58\",\n            \"invoice_id\": \"6a499437-bd54-43e9-bc25-0a781727466b\",\n            \"amount\": 50,\n            \"payment_method\": \"PayPal\",\n            \"payment_date\": \"2024-10-26T16:37:05.202Z\",\n            \"payment_status\": \"failed\"\n        },\n        {\n            \"id\": \"9adb2169-aa57-4fd9-bd00-223eafff7a07\",\n            \"invoice_id\": \"8700141e-c81a-4bb6-b262-a9321a087975\",\n            \"amount\": 50,\n            \"payment_method\": \"Binance\",\n            \"payment_date\": \"2024-10-26T16:38:23.853Z\",\n            \"payment_status\": \"paid\"\n        },\n        {\n            \"id\": \"a6a203a6-e4dc-432a-9d22-d47a1c3bbbbc\",\n            \"invoice_id\": \"6a499437-bd54-43e9-bc25-0a781727466b\",\n            \"amount\": 50,\n            \"payment_method\": \"PayPal\",\n            \"payment_date\": \"2024-10-26T16:38:06.560Z\",\n            \"payment_status\": \"paid\"\n        }\n    ],\n    \"ok\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "get payments per invoice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PAYMENTS_URI}}/api/invoice/:id/payments",
+							"host": [
+								"{{PAYMENTS_URI}}"
+							],
+							"path": [
+								"api",
+								"invoice",
+								":id",
+								"payments"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8700141e-c81a-4bb6-b262-a9321a087975"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get payments per invoice",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{PAYMENTS_URI}}/api/invoice/:id/payments",
+									"host": [
+										"{{PAYMENTS_URI}}"
+									],
+									"path": [
+										"api",
+										"invoice",
+										":id",
+										"payments"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8700141e-c81a-4bb6-b262-a9321a087975"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"payments\": [\n        {\n            \"id\": \"9adb2169-aa57-4fd9-bd00-223eafff7a07\",\n            \"invoice_id\": \"8700141e-c81a-4bb6-b262-a9321a087975\",\n            \"amount\": 50,\n            \"payment_method\": \"Binance\",\n            \"payment_date\": \"2024-10-26T16:38:23.853Z\",\n            \"payment_status\": \"paid\"\n        }\n    ],\n    \"ok\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "get payment by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PAYMENTS_URI}}/api/payments/:id",
+							"host": [
+								"{{PAYMENTS_URI}}"
+							],
+							"path": [
+								"api",
+								"payments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create payment for invoice",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"invoice_id\": \"8700141e-c81a-4bb6-b262-a9321a087975\", //string\r\n\t\"amount\": 50, // number\r\n\t\"payment_method\": \"Binance\"//enum(['Credit Card', 'PayPal', 'Binance', 'BenefitPay', 'Mada']),\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PAYMENTS_URI}}/api/invoice/:id/payment",
+							"host": [
+								"{{PAYMENTS_URI}}"
+							],
+							"path": [
+								"api",
+								"invoice",
+								":id",
+								"payment"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6a499437-bd54-43e9-bc25-0a781727466b"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create payment for invoice",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"invoice_id\": \"8700141e-c81a-4bb6-b262-a9321a087975\", //string\r\n\t\"amount\": 50, // number\r\n\t\"payment_method\": \"Binance\"//enum(['Credit Card', 'PayPal', 'Binance', 'BenefitPay', 'Mada']),\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PAYMENTS_URI}}/api/invoice/:id/payment",
+									"host": [
+										"{{PAYMENTS_URI}}"
+									],
+									"path": [
+										"api",
+										"invoice",
+										":id",
+										"payment"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6a499437-bd54-43e9-bc25-0a781727466b"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"payment\": {\n        \"id\": \"9adb2169-aa57-4fd9-bd00-223eafff7a07\",\n        \"invoice_id\": \"8700141e-c81a-4bb6-b262-a9321a087975\",\n        \"amount\": 50,\n        \"payment_method\": \"Binance\",\n        \"payment_date\": \"2024-10-26T16:38:23.853Z\",\n        \"payment_status\": \"paid\"\n    },\n    \"ok\": true\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "notification",
+			"item": [
+				{
+					"name": "email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"to\": [\r\n        \"ibrahim.alkubaisy@gmail.com\"\r\n    ],\r\n    \"subject\": \"Testing refactoring\",\r\n    \"emailBody\": \"Testing some Mailgun awesomeness!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{NOTIFICATIONS_URI}}/api/email",
+							"host": [
+								"{{NOTIFICATIONS_URI}}"
+							],
+							"path": [
+								"api",
+								"email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "billify",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-test-headers",
+						"value": "headerVal",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"hi\": \"world\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URI}}/billify/:id?q=search",
+					"host": [
+						"{{BASE_URI}}"
+					],
+					"path": [
+						"billify",
+						":id"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "search"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "pleasechangemeotherwiseiwillgoeatapizzaprettyimpressivethatyouvereachedherethough",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BILLING_URI",
+			"value": "http://127.0.0.1:8783",
+			"type": "string"
+		},
+		{
+			"key": "NOTIFICATIONS_URI",
+			"value": "http://127.0.0.1:8781",
+			"type": "string"
+		},
+		{
+			"key": "PAYMENTS_URI",
+			"value": "http://127.0.0.1:8784",
+			"type": "string"
+		},
+		{
+			"key": "SUBSCRIPTIONS_URI",
+			"value": "http://127.0.0.1:8782",
+			"type": "string"
+		}
+	]
+}
