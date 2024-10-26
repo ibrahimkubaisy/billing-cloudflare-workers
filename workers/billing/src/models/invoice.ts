@@ -10,7 +10,7 @@ declare global {
 export interface Invoice {
 	id: string;
 	customer_id: string;
-	amount: string;
+	amount: number;
 	due_date: Date;
 	payment_status: 'pending' | 'paid' | 'failed';
 	payment_date: Date | null;
@@ -18,7 +18,7 @@ export interface Invoice {
 
 export type Param = {
 	customer_id: string;
-	amount: string;
+	amount: number;
 	due_date: Date;
 	payment_status: 'pending' | 'paid' | 'failed';
 	payment_date: Date | null;
