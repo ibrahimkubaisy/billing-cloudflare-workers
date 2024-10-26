@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import * as model from './models/invoice';
 import { Env } from './worker';
+import { email, fetchCustomer } from './utils';
 
 const invoiceSchema = z.object({
 	customer_id: z.string().min(5),
@@ -45,6 +46,15 @@ api.post('/', zValidator('json', invoiceSchema), async (c) => {
 	if (!newInvoice) {
 		return c.json({ error: 'Cannot create new invoice', ok: false }, 422);
 	}
+
+	const customer = await fetchCustomer(c.env, newInvoice.customer_id);
+
+	await email(
+		c.env,
+		[customer.email],
+		'Your Billify invoice has been issued!',
+		`New invoice ${newInvoice.id} for ${newInvoice.amount} is issued with status: ${newInvoice.payment_status}, and is due on ${newInvoice.due_date}!`
+	);
 
 	return c.json({ invoice: newInvoice, ok: true }, 201);
 });
@@ -103,6 +113,15 @@ api.post('/:id/failed-payment', zValidator('json', invoiceSchema.partial()), asy
 
 	// TODO: do we add the failed payment date in the payment_date or is this field only for successful payments?
 	const updatedInvoice = await model.updateInvoice(c.env.BILLIFY_KV, id, { payment_status: 'failed', payment_date: null });
+
+	const customer = await fetchCustomer(c.env, invoice.customer_id);
+
+	await email(
+		c.env,
+		[customer.email],
+		'Your Billify payment has failed!',
+		`Your payment for the invoice ${invoice.id} for ${invoice.amount} has failed!`
+	);
 
 	return c.json({ invoice: updatedInvoice });
 });
