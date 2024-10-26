@@ -1,5 +1,6 @@
 import { DurableObject } from 'cloudflare:workers';
 import { PaymentDO } from './paymentDO';
+import app from './app';
 
 /**
  * Welcome to Cloudflare Workers! This is your first Durable Objects application.
@@ -52,19 +53,7 @@ export default {
 	// TODO: Schedule reattempting failed payments
 	async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {},
 	// TODO: Provide API endpoints to pay and list past payments
-	async fetch(request, env, ctx): Promise<Response> {
-		// We will create a `DurableObjectId` using the pathname from the Worker request
-		// This id refers to a unique instance of our 'MyDurableObject' class above
-		let id: DurableObjectId = env.PaymentDO.idFromName(new URL(request.url).pathname);
-
-		// This stub creates a communication channel with the Durable Object instance
-		// The Durable Object constructor will be invoked upon the first call for a given id
-		let stub = env.PaymentDO.get(id);
-
-		// We call the `sayHello()` RPC method on the stub to invoke the method on the remote
-		// Durable Object instance
-		// let greeting = await stub.sayHello('world');
-
-		return new Response();
+	async fetch(request: Request, env: any) {
+		return await app.fetch(request, env);
 	},
 } satisfies ExportedHandler<Env>;
