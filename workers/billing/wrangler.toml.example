@@ -1,0 +1,42 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "billing"
+main = "src/worker.ts"
+compatibility_date = "2024-10-22"
+
+# Cron Triggers
+# Docs: https://developers.cloudflare.com/workers/platform/triggers/cron-triggers/
+# Configuration: https://developers.cloudflare.com/workers/wrangler/configuration/#triggers
+[triggers]
+# crons = ["* * * * *"] # * * * * * = run every min
+crons = ["0 */1 * * *"] # 0 */1 * * * = run every hour
+# crons = ["0 0 * * *"] # 0 0 * * * = run every day
+
+[observability]
+enabled = true
+
+# Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
+# [vars]
+# MY_VARIABLE = "production_value"
+
+[[d1_databases]]
+binding = "BILLIFY_D1" # i.e. available in your Worker on env.DB
+database_name = "billify-db"
+database_id = "xxxxxxx"
+
+[[kv_namespaces]]
+binding = "BILLIFY_KV"
+id = "xxxxxxxxxx"
+
+# Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
+# Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#durable-objects
+# [[durable_objects.bindings]]
+# name = "MY_DURABLE_OBJECT"
+# class_name = "MyDurableObject"
+
+# Durable Object migrations.
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#migrations
+# [[migrations]]
+# tag = "v1"
+# new_classes = ["MyDurableObject"]
+
