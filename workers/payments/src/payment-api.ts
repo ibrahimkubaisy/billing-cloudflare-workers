@@ -3,7 +3,12 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import * as model from './models/payment';
 import { Env } from './worker';
-import { processPayment, reportFailedPayment, reportSuccessfulPayment } from './utils';
+import {
+	processPayment,
+	// email,
+	// reportFailedPayment,
+	// reportSuccessfulPayment,
+} from './utils';
 
 const paymentSchema = z.object({
 	invoice_id: z.string().min(5),

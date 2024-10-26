@@ -9,6 +9,7 @@
 import app from './app';
 import { Invoice } from './invoiceDO';
 import { createInvoice } from './models/invoice';
+import { email, fetchCustomers, fetchSubscriptions, updateCustomerBilling } from './utils';
 
 export interface Env {
 	BILLIFY_KV: KVNamespace;
@@ -22,43 +23,6 @@ type CustomerPlan = {
 	name: string;
 	billing_cycle: string;
 	price: number;
-};
-
-const email = async (env: Env, to: string[], subject: string, emailBody: string) =>
-	await fetch(`${env.NOTIFICATIONS_SERVICE}/api/email`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${env.API_TOKEN}`,
-		},
-		body: JSON.stringify({
-			to,
-			subject,
-			emailBody,
-		}),
-	});
-
-const fetchCustomers = async (env: Env) => {
-	const customers_resp = await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/customers`);
-	const { customers }: any = await customers_resp.json();
-	return customers;
-};
-
-const fetchSubscriptions = async (env: Env) => {
-	const subscriptions_resp = await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/subscriptions`);
-	const { subscriptions }: any = await subscriptions_resp.json();
-	return subscriptions;
-};
-
-const updateCustomerBilling = async (env: Env, customerId: string, updateCustomerBody: any) => {
-	await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/customers/${customerId}`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${env.API_TOKEN}`,
-		},
-		body: JSON.stringify(updateCustomerBody),
-	});
 };
 
 export { Invoice };

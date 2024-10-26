@@ -43,3 +43,17 @@ export const processPayment = async (env: Env, paymentData: PaymentInput) => {
 
 	return newPayment;
 };
+
+// export const email = async (env: Env, to: string[], subject: string, emailBody: string) =>
+// 	await fetch(`${env.NOTIFICATIONS_SERVICE}/api/email`, {
+// 		method: 'POST',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 			Authorization: `Bearer ${env.API_TOKEN}`,
+// 		},
+// 		body: JSON.stringify({
+// 			to,
+// 			subject,
+// 			emailBody,
+// 		}),
+// 	});
