@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import * as model from './models/payment';
 import { Env } from './worker';
+import { reportFailedPayment, reportSuccessfulPayment } from './utils';
 
 const paymentSchema = z.object({
 	invoice_id: z.string().min(5),
@@ -35,6 +36,15 @@ api.post('/invoice/:id/payment', zValidator('json', paymentSchema), async (c) =>
 
 	if (!newPayment) {
 		return c.json({ error: 'Cannot create new payment', ok: false }, 422);
+	}
+
+	// randomly select between failed/paid payment, then update the invoice accordingly
+	const paymentStatus = Math.random() < 0.75 ? 'failed' : 'paid'; // give more change for failed payment to test, or hardcode to failed
+
+	if (paymentStatus === 'paid') {
+		await reportSuccessfulPayment(c, paymentData.invoice_id);
+	} else if (paymentStatus === 'failed') {
+		await reportFailedPayment(c, paymentData.invoice_id);
 	}
 
 	return c.json({ payment: newPayment, ok: true }, 201);
