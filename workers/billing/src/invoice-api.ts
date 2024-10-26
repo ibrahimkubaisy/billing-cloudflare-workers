@@ -69,6 +69,37 @@ api.put('/:id', zValidator('json', invoiceSchema.partial()), async (c) => {
 	return c.json({ ok: success });
 });
 
+// Pay an invoice by ID
+api.post('/:id/pay', zValidator('json', invoiceSchema.partial()), async (c) => {
+	const id = c.req.param('id');
+	const invoice = await model.getInvoice(c.env.BILLIFY_KV, id);
+
+	if (!invoice) {
+		// 204 No Content
+		return new Response(null, { status: 204 });
+	}
+
+	const success = await model.updateInvoice(c.env.BILLIFY_KV, id, { payment_status: 'paid', payment_date: new Date() });
+
+	return c.json({ ok: success });
+});
+
+// Payment failed for an invoice by ID
+api.post('/:id/failed-payment', zValidator('json', invoiceSchema.partial()), async (c) => {
+	const id = c.req.param('id');
+	const invoice = await model.getInvoice(c.env.BILLIFY_KV, id);
+
+	if (!invoice) {
+		// 204 No Content
+		return new Response(null, { status: 204 });
+	}
+
+	// TODO: do we add the failed payment date in the payment_date or is this field only for successful payments?
+	const updatedInvoice = await model.updateInvoice(c.env.BILLIFY_KV, id, { payment_status: 'failed', payment_date: null });
+
+	return c.json({ invoice: updatedInvoice });
+});
+
 // Delete a invoice by ID
 // api.delete('/:id', async (c) => {
 // 	const id = c.req.param('id');

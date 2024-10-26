@@ -102,22 +102,22 @@ export const createInvoice = async (KV: KVNamespace, param: Param): Promise<Invo
 };
 
 // Update an existing invoice
-export const updateInvoice = async (KV: KVNamespace, id: string, param: Partial<Param>): Promise<boolean> => {
+export const updateInvoice = async (KV: KVNamespace, id: string, param: Partial<Param>): Promise<Invoice | null> => {
 	try {
 		const invoice = await getInvoice(KV, id);
-		if (!invoice) return false;
+		if (!invoice) return null;
 
 		// Update fields only if they are provided in the param
 		invoice.customer_id = param.customer_id ?? invoice.customer_id;
 		invoice.amount = param.amount ?? invoice.amount;
 		invoice.due_date = param.due_date ?? invoice.due_date;
 		invoice.payment_status = param.payment_status ?? invoice.payment_status;
-		invoice.payment_date = param.payment_date ?? invoice.payment_date;
+		invoice.payment_date = param.payment_date !== undefined ? param.payment_date : invoice.payment_date;
 
 		await KV.put(generateID(id), JSON.stringify(invoice));
-		return true;
+		return invoice;
 	} catch (error) {
-		return false;
+		return null;
 	}
 };
 
