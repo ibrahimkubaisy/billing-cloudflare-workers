@@ -68,11 +68,9 @@ export default {
 	async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
 		console.log(`trigger fired at ${controller.cron}: started`);
 		try {
-			const customers_resp = await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/customers`);
-			const { customers }: any = await customers_resp.json();
+			const customers = await fetchCustomers(env);
 
-			const subscriptions_resp = await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/subscriptions`);
-			const { subscriptions }: any = await subscriptions_resp.json();
+			const subscriptions = await fetchSubscriptions(env);
 
 			// Approach 1: Use same logic for both monthly and annual subscribers with 1 scheduler
 			customers
@@ -108,14 +106,7 @@ export default {
 						next_billing_date,
 					};
 
-					await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/customers/${customer.id}`, {
-						method: 'PUT',
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${env.API_TOKEN}`,
-						},
-						body: JSON.stringify(updateCustomerBody),
-					});
+					await updateCustomerBilling(env, customer.id, updateCustomerBody);
 
 					const notification_resp = await email(
 						env,
