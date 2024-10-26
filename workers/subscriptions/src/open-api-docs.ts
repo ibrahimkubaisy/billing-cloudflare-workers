@@ -1,23 +1,17 @@
-import { Context, Hono, Next } from 'hono';
-import { z } from 'zod';
-import { zValidator } from '@hono/zod-validator';
-import { Bindings } from './bindings';
-import * as model from './models/customer';
-import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
+import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { swaggerUI } from '@hono/swagger-ui';
 
+const app = new OpenAPIHono();
+
+// Define customer schema
 const customerSchema = z.object({
-	name: z.string().min(5),
-	email: z.string().email(), // Ensure valid email format
-	subscription_plan_id: z.string().min(1),
-	subscription_status: z.enum(['active', 'cancelled', 'paused']),
-	next_billing_date: z.preprocess((val) => (typeof val === 'string' ? new Date(val) : val), z.date().nullable()),
+	name: z.string(),
+	email: z.string().email(),
+	address: z.string().optional(),
+	// Add other customer fields as needed
 });
 
-type CustomerInput = z.infer<typeof customerSchema>;
-
-const api = new OpenAPIHono<{ Bindings: Bindings }>();
-
-api.openapi(
+app.openapi(
 	createRoute({
 		method: 'get',
 		path: '/api/customers',
@@ -41,7 +35,7 @@ api.openapi(
 	}
 );
 
-api.openapi(
+app.openapi(
 	createRoute({
 		method: 'post',
 		path: '/api/customers',
@@ -86,7 +80,7 @@ api.openapi(
 	}
 );
 
-api.openapi(
+app.openapi(
 	createRoute({
 		method: 'get',
 		path: '/api/customers/:id',
@@ -123,7 +117,7 @@ api.openapi(
 	}
 );
 
-api.openapi(
+app.openapi(
 	createRoute({
 		method: 'put',
 		path: '/api/customers/:id',
@@ -161,7 +155,7 @@ api.openapi(
 	}
 );
 
-api.openapi(
+app.openapi(
 	createRoute({
 		method: 'delete',
 		path: '/api/customers/:id',
@@ -190,4 +184,19 @@ api.openapi(
 	}
 );
 
-export default api;
+app.get(
+	'/ui',
+	swaggerUI({
+		url: '/doc',
+	})
+);
+
+app.doc('/doc', {
+	info: {
+		title: 'Customers API',
+		version: 'v1',
+	},
+	openapi: '3.1.0',
+});
+
+export default app;
