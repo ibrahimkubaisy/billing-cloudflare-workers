@@ -48,6 +48,26 @@ export const getInvoices = async (KV: KVNamespace): Promise<Invoice[] | undefine
 	}
 };
 
+// Fetch all invoices
+export const getCustomerInvoices = async (KV: KVNamespace, customerId: string): Promise<Invoice[] | undefined> => {
+	try {
+		const list = await KV.list({ prefix: PREFIX });
+		const keys = list.keys;
+
+		const invoices: Invoice[] = await Promise.all(
+			keys.map(async (key) => {
+				const value = await KV.get(key.name);
+				return value ? JSON.parse(value) : null;
+			})
+		);
+
+		const customerInvoices = invoices.filter(Boolean).filter((invoice) => invoice.customer_id === customerId) as Invoice[];
+		return customerInvoices;
+	} catch (error) {
+		return undefined;
+	}
+};
+
 // Fetch a single invoice by ID
 export const getInvoice = async (KV: KVNamespace, id: string): Promise<Invoice | undefined> => {
 	try {

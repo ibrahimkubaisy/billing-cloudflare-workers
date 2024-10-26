@@ -22,6 +22,13 @@ api.get('/', async (c) => {
 	return c.json({ invoices: invoices, ok: true });
 });
 
+// Fetch all invoices per customer id
+api.get('/customer/:id', async (c) => {
+	const id = c.req.param('id');
+	const invoices = await model.getCustomerInvoices(c.env.KV, id);
+	return c.json({ invoices: invoices, ok: true });
+});
+
 // Create a new invoice
 api.post('/', zValidator('json', invoiceSchema), async (c) => {
 	const invoiceData: InvoiceInput = c.req.valid('json');
