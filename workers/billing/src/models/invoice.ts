@@ -121,6 +121,7 @@ export const updateInvoice = async (KV: KVNamespace, id: string, param: Partial<
 	}
 };
 
+// Invoices should be safe against deletions
 // Delete a invoice by ID
 // export const deleteInvoice = async (KV: KVNamespace, id: string): Promise<boolean> => {
 // 	try {
