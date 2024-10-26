@@ -17,6 +17,12 @@ export interface Env {
 	API_TOKEN: string;
 }
 
+type CustomerPlan = {
+	name: string;
+	billing_cycle: string;
+	price: number;
+};
+
 const email = async (env: Env, to: string[], subject: string, emailBody: string) =>
 	await fetch(`${env.NOTIFICATIONS_SERVICE}/api/email/`, {
 		method: 'POST',
@@ -68,67 +74,122 @@ export default {
 			const subscriptions_resp = await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/subscriptions`);
 			const { subscriptions }: any = await subscriptions_resp.json();
 
-			// Another Approach to take if you want to schedule billing beginning of every month and year
-			switch (controller.cron) {
-				case '0 0 1 * *': // monthly cron interval
-					customers
-						.filter((customer: any) => customer.subscription_status === 'active') // check for active subscriptions
-						.map(async (customer: any) => {
-							const customerPlan = subscriptions.find((subscription: any) => subscription.id === customer.subscription_plan_id);
-							console.log({ customer, customerPlan, date: new Date(), dateOk: customer.next_billing_date >= new Date() });
+			// Approach 1: Use same logic for both monthly and annual subscribers with 1 scheduler
+			customers
+				.filter((customer: any) => customer.subscription_status === 'active') // check for active subscriptions
+				.map(async (customer: any) => {
+					const customerPlan: CustomerPlan = subscriptions.find((subscription: any) => subscription.id === customer.subscription_plan_id);
+					console.log({ customer, customerPlan, date: new Date(), dateOk: customer.next_billing_date >= new Date() });
 
-							// check for monthly plans customers
-							if (customerPlan?.billing_cycle !== 'monthly') return;
+					// check if billing date has passed and is due (this check can also be moved to the filter function above)
+					if (customer.next_billing_date >= new Date()) return; // if billing date is in the future then skip
 
-							// check if billing date has passed and is due (this check can also be moved to the filter function above)
-							if (customer.next_billing_date >= new Date()) return; // if billing date is in the future then skip
+					const billingCycles: any = {
+						monthly: 1,
+						yearly: 12,
+					};
 
-							const newInvoiceDueDate = new Date(); // TODO: what should be the due date, add specific days, or is it today then they pay
-							const newInvoice = await createInvoice(env.KV, {
-								customer_id: customer.id,
-								amount: customerPlan.price,
-								due_date: newInvoiceDueDate,
-								payment_status: 'pending',
-								payment_date: null,
-							});
+					const newInvoiceDueDate = new Date(); // TODO: what should be the due date, add specific days, or is it today then they pay
+					const newInvoice = await createInvoice(env.KV, {
+						customer_id: customer.id,
+						amount: customerPlan.price,
+						due_date: newInvoiceDueDate,
+						payment_status: 'pending',
+						payment_date: null,
+					});
 
-							const next_billing_date = new Date(
-								new Date(customer.next_billing_date).setMonth(new Date(customer.next_billing_date).getMonth() + 1)
-							);
+					// update the customer's billing date adding a month to the original
+					const next_billing_date = new Date(
+						new Date(customer.next_billing_date).setMonth(
+							new Date(customer.next_billing_date).getMonth() + billingCycles[customerPlan.billing_cycle] || 1
+						)
+					);
+					const updateCustomerBody = {
+						next_billing_date,
+					};
 
-							// update the customer's billing date adding a month to the original
-							const updateCustomerBody = {
-								next_billing_date,
-							};
-							console.log({ updateCustomerBody });
+					await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/customers/${customer.id}`, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json',
+							Authorization: `Bearer ${env.API_TOKEN}`,
+						},
+						body: JSON.stringify(updateCustomerBody),
+					});
 
-							await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/customers/${customer.id}`, {
-								method: 'PUT',
-								headers: {
-									'Content-Type': 'application/json',
-									Authorization: `Bearer ${env.API_TOKEN}`,
-								},
-								body: JSON.stringify(updateCustomerBody),
-							});
-							console.log({ CUSTOMER_SUBSCRIPTIONS_SERVICE: env.CUSTOMER_SUBSCRIPTIONS_SERVICE });
+					const notification_resp = await email(
+						env,
+						[customer.email],
+						`Your Billify ${customerPlan.billing_cycle.toUpperCase()} Invoice has been Generated!`,
+						`Dear ${customer.name}, \nYour invoice for your ${customerPlan.billing_cycle} ${customerPlan.name} plan has been generated for the amount of ${customerPlan.price}, and is due on ${newInvoiceDueDate}!\n\nKindly use our payment API to process the payment.`
+					);
 
-							const notification_resp = await email(
-								env,
-								[customer.email],
-								`Your Billify ${customerPlan.billing_cycle.toUpperCase()} Invoice has been Generated!`,
-								`Dear ${customer.name}, \nYour invoice for your ${customerPlan.billing_cycle} ${customerPlan.name} plan has been generated for the amount of ${customerPlan.price}, and is due on ${newInvoiceDueDate}!\n\nKindly use our payment API to process the payment.`
-							);
+					console.log({ notification_resp });
 
-							console.log({ notification_resp });
+					return customer;
+				});
 
-							return customer;
-						});
+			// Another Approach to take, if you want to schedule billing beginning of every month and year
+			// switch (controller.cron) {
+			// 	case '0 0 1 * *': // monthly cron interval
+			// 		customers
+			// 			.filter((customer: any) => customer.subscription_status === 'active') // check for active subscriptions
+			// 			.map(async (customer: any) => {
+			// 				const customerPlan = subscriptions.find((subscription: any) => subscription.id === customer.subscription_plan_id);
+			// 				console.log({ customer, customerPlan, date: new Date(), dateOk: customer.next_billing_date >= new Date() });
 
-					break;
-				case '0 0 1 1 *': // yearly cron interval
-					// same as the monthly cron interval but with adjusting "monthly" and and +12
-					break;
-			}
+			// 				// check for monthly plans customers
+			// 				if (customerPlan?.billing_cycle !== 'monthly') return;
+
+			// 				// check if billing date has passed and is due (this check can also be moved to the filter function above)
+			// 				if (customer.next_billing_date >= new Date()) return; // if billing date is in the future then skip
+
+			// 				const newInvoiceDueDate = new Date(); // TODO: what should be the due date, add specific days, or is it today then they pay
+			// 				const newInvoice = await createInvoice(env.KV, {
+			// 					customer_id: customer.id,
+			// 					amount: customerPlan.price,
+			// 					due_date: newInvoiceDueDate,
+			// 					payment_status: 'pending',
+			// 					payment_date: null,
+			// 				});
+
+			// 				const next_billing_date = new Date(
+			// 					new Date(customer.next_billing_date).setMonth(new Date(customer.next_billing_date).getMonth() + 1)
+			// 				);
+
+			// 				// update the customer's billing date adding a month to the original
+			// 				const updateCustomerBody = {
+			// 					next_billing_date,
+			// 				};
+			// 				console.log({ updateCustomerBody });
+
+			// 				await fetch(`${env.CUSTOMER_SUBSCRIPTIONS_SERVICE}/api/customers/${customer.id}`, {
+			// 					method: 'PUT',
+			// 					headers: {
+			// 						'Content-Type': 'application/json',
+			// 						Authorization: `Bearer ${env.API_TOKEN}`,
+			// 					},
+			// 					body: JSON.stringify(updateCustomerBody),
+			// 				});
+			// 				console.log({ CUSTOMER_SUBSCRIPTIONS_SERVICE: env.CUSTOMER_SUBSCRIPTIONS_SERVICE });
+
+			// 				const notification_resp = await email(
+			// 					env,
+			// 					[customer.email],
+			// 					`Your Billify ${customerPlan.billing_cycle.toUpperCase()} Invoice has been Generated!`,
+			// 					`Dear ${customer.name}, \nYour invoice for your ${customerPlan.billing_cycle} ${customerPlan.name} plan has been generated for the amount of ${customerPlan.price}, and is due on ${newInvoiceDueDate}!\n\nKindly use our payment API to process the payment.`
+			// 				);
+
+			// 				console.log({ notification_resp });
+
+			// 				return customer;
+			// 			});
+
+			// 		break;
+			// 	case '0 0 1 1 *': // yearly cron interval
+			// 		// same as the monthly cron interval but with adjusting "monthly" and and +12
+			// 		break;
+			// }
 		} catch (error) {
 			console.log({ error });
 		}
